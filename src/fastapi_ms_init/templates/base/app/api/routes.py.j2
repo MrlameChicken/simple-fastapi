@@ -1,0 +1,16 @@
+"""API routes for {{ config.service_name }}."""
+
+from fastapi import APIRouter
+
+router = APIRouter()
+
+
+{% if config.include_example_route %}
+@router.get("/example")
+async def example_endpoint():
+    """Example API endpoint."""
+    return {"message": "Hello from {{ config.service_name }}!"}
+{% else %}
+# Add your API routes here
+pass
+{% endif %}

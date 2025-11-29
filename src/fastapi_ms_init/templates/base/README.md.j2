@@ -1,0 +1,96 @@
+# {{ config.service_name }}
+
+FastAPI microservice generated with fastapi-ms-init.
+
+## Quick Start
+
+### Local Development
+
+```bash
+# Install dependencies
+pip install -e ".[dev]"
+
+# Run the service
+uvicorn app.main:app --reload
+
+# Run tests
+pytest
+```
+
+The API will be available at http://localhost:8000
+
+- API Documentation: http://localhost:8000/docs
+- Health Check: http://localhost:8000/health
+
+### Docker
+
+```bash
+# Build and run with Docker
+docker build -t {{ config.service_name }} .
+docker run -p 8000:8000 {{ config.service_name }}
+
+{% if config.generate_docker_compose %}
+# Or use docker-compose
+docker-compose up --build
+{% endif %}
+```
+
+## Project Structure
+
+```
+{{ config.service_name }}/
+├── app/
+│   ├── __init__.py
+│   ├── main.py              # FastAPI application
+│   ├── api/
+│   │   ├── __init__.py
+│   │   └── routes.py        # API routes
+│   └── core/
+│       ├── __init__.py
+│       ├── settings.py      # Configuration
+│       └── logging.py       # Logging setup
+├── tests/
+│   ├── __init__.py
+│   ├── conftest.py          # pytest fixtures
+│   ├── test_main.py         # Application tests
+│   └── test_routes.py       # Route tests
+├── Dockerfile
+{% if config.generate_docker_compose %}
+├── docker-compose.yml
+{% endif %}
+├── pyproject.toml
+└── README.md
+```
+
+## API Endpoints
+
+- `GET /health` - Health check endpoint
+{% if config.include_example_route %}
+- `GET /api/example` - Example API endpoint
+{% endif %}
+
+## Development
+
+### Running Tests
+
+```bash
+pytest -v
+```
+
+### Testing Coverage
+
+```bash
+pytest --cov=app --cov-report=html
+```
+
+## Configuration
+
+Configuration is managed through environment variables or `.env` file:
+
+- `APP_NAME` - Application name (default: "{{ config.service_name }}")
+- `DEBUG` - Debug mode (default: False)
+- `LOG_LEVEL` - Logging level (default: INFO)
+
+## License
+
+MIT
