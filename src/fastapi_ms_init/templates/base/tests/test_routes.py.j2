@@ -1,0 +1,19 @@
+"""Tests for API routes."""
+
+{% if config.include_example_route %}
+
+def test_example_endpoint(client):
+    """Test example API endpoint."""
+    response = client.get("/api/example")
+    assert response.status_code == 200
+    data = response.json()
+    assert "message" in data
+    assert "{{ config.service_name }}" in data["message"]
+
+{% else %}
+
+def test_placeholder():
+    """Placeholder test when no example routes included."""
+    assert True
+
+{% endif %}

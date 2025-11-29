@@ -1,0 +1,43 @@
+"""Main FastAPI application for {{ config.service_name }}."""
+
+from fastapi import FastAPI
+{% if config.include_example_route %}
+from app.api.routes import router
+{% endif %}
+from app.core.logging import setup_logging
+from app.core.settings import get_settings
+
+# Setup logging
+setup_logging()
+
+# Get settings
+settings = get_settings()
+
+# Create FastAPI app
+app = FastAPI(
+    title="{{ config.service_name }}",
+    description="FastAPI microservice",
+    version="0.1.0",
+)
+
+
+@app.get("/health")
+async def health_check():
+    """Health check endpoint."""
+    return {"status": "healthy"}
+
+
+{% if config.include_example_route %}
+# Include API routes
+app.include_router(router, prefix="/api")
+{% endif %}
+
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(
+        "app.main:app",
+        host="0.0.0.0",
+        port=8000,
+        reload=True,
+    )
